@@ -22,7 +22,7 @@
 ;    By: login____ <mail_______@student.42.fr>      +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
 ;    Created: yyyy/mm/dd 15:27:11 by login____         #+#    #+#              ;
-;    Updated: 2019/11/19 01:49:52 by pdrion           ###   ########.fr        ;
+;    Updated: 2019/11/27 16:26:19 by testpdrion       ###   ########.fr        ;
 ;                                                                              ;
 ;******************************************************************************;
 
@@ -42,7 +42,7 @@
 
 (set 'user-mail (let ((mail (getenv "MAIL")))
 				   (if (string= mail nil)
-					   "phildrion@student.42.fr"
+					   "pdrion@student.42.fr"
 					 mail)
 				   )
 	 )
