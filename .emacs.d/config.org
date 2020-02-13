@@ -4,13 +4,8 @@
 #+OPTIONS: num:nil
 
 * Comments vcombey
-** treemacs
-** theme spacemacs-theme  kill
-** taille du texte default-text-scale
-** persp-mode plusieurs fenetre
-** flycheck erreur de compilation done 
-** company done
-** magit DONE
+;; taille du texte default-text-scale
+;; persp-mode plusieurs fenetre
 
 * Theme
 The most important part of every configuration.
@@ -938,7 +933,7 @@ Makes it all look a bit nicer, I hate looking at asterisks.
   (use-package neotree
     :ensure t
     :init
-    (global-set-key [f8] 'neotree-toggle))
+    (global-set-key (kbd "C-c t") 'neotree-toggle))
 #+END_SRC
 * header 42
 #+BEGIN_SRC emacs-lisp
