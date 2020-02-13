@@ -2,89 +2,15 @@
 #+TITLE: Philippe's Emacs
 #+LANGUAGE: en
 #+OPTIONS: num:nil
-* Installation
-** Quick Installation
-=git clone https://github.com/daedreth/UncleDavesEmacs ~/.emacs.d=
 
-Keep in mind that you should remove your own ~/.emacs and your ~/.emacs.d
-prior to cloning this configuration. The next time you launch Emacs (and I recommend
-launching emacs in the tty for the first time) it's going to download a good amount
-of packages and configure them for you, you might see warnings and errors being
-displayed as well, those are safe to ignore as long as you relaunch emacs and
-see none.
-
-The configuration, much like emacs is self documented, I highly recommend reading
-through my ramblings in their entirety.
-
-** Less Quick Installation
-You are free to pick out bits and pieces of this and apply them.
-So long as you have a working =use-package= configuration (take a peek at my init.el),
-there should be absolutely no issues.
-I highly encourage you to read up on the prose around the packages you are interested in,
-I do my absolute best to describe the configuration as well as I only can, this might help you on your emacs journey!
-Have some fun with it, add your own keybindings, change parameters, it's your editor in the end.
-
-* Dependencies for:
-** EXWM
-Since we are going to use emacs as our window manager, it would be nice to have some external software to make our life easier.
-*** From the package manager:
-- =xorg-server=, for obvious reasons. (there is no wayland support as of now)
-- =pulsemixer=, available from =https://github.com/GeorgeFilipkin/pulsemixer=.
-- =imagemagick=, if you are going to be using emacs to take screenshots.
-- =ibus-daemon=, if you need multiple keyboard input options (emacs handles them well on its own but ibus is nice).
-- =terminus-font=, for it to work out of the box, if you don't want terminus you need to edit your =init.el=.
-
-**** Optional
-- A browser (sadly, the built in xwidgets-webkit thingie is unreliable).
-- A composite manager (highly recommended, I personally use =compton=, the built in one does not work as intended.).
-- =noto-cjk=, for all the fonts imaginable.
-- =slock=, if you would like to lock the screen.
-
-** TRAMP
-*** From the package manager:
-- =sudo=, properly configured for your user.
-
-** EMMS
-*** From the package manager:
-- =mpd=, since we are going to be using EMMS for music playback, I recommend setting up a working mpd server.
-- =mpv=, for video playback.
-
-** Programming
-*** Package manager
-- =clang=, for c/c++ completion.
-- =sbcl=, for clisp completion and repl.
-- =virtualenv=, for python completion.
-- =lua=, for obvious reasons.
-
-*** pip
-- =pip install jedi flake8 autopep8=, here, a one line install.
-
-* Some notes
-** On use-package some more
-We utilize use-package to handle downloading and configuring other packages painlessly.
-With =init.el= written the way it is, emacs checks for the presence of =use-package=
-on launch and downloads it and installs if necessary.
-=el-Get= is too old and not configurable enough.
-
-** On the format of the configuration
-As you may have noticed, as you scroll down my bit of prose, this is the configuration file itself.
-This configuration is written in =org-mode=, which is a great emacs package and a great markup language.
-On launch, this file is being sourced into =~/.emacs.d/init.el=, the prose is being automatically
-stripped (as to not affect performance) and the remaining =config.el= file is parsed.
-
-This is also the reason why your org-mode configuration file is never called =init.org=.
-
-** On the use case of this configuration
-This entire config is meant to be used as a full on desktop environment, it is tailored to sit on top of xorg and be awesome.
-It is perfectly possible to use it without exwm and emms, as a regular emacs config, just make sure to delete the unwanted sections,
-ex.g EXWM, Audio Control, EMMS and all the launchers.
-There is barely any learning curve to using =exwm=, since it makes x-windows act as regular buffers as much as possible,
-so chances are, as long as you know your way around emacs itself, you will instinctively know how to make use of its features.
-
-** On the keybindings
-I do my best to not pollute keymaps with my own keybindings. Most of the bindings I defined myself utilize the Super key (noted as =s-=).
-This is the least used modifier key together with Shift (noted as =S-=), thus using those, chances are all the bindings you already know
-and love are going to work flawlessly. For all the others, just keep on reading.
+* Comments vcombey
+** treemacs
+** theme spacemacs-theme  kill
+** taille du texte default-text-scale
+** persp-mode plusieurs fenetre
+** flycheck erreur de compilation done 
+** company done
+** magit DONE
 
 * Theme
 The most important part of every configuration.
@@ -100,104 +26,14 @@ My new favourite one I guess, really decent default values.
 ** Some customization
 The theme is great, really, but some of the concepts just suck with powerline.
 #+BEGIN_SRC emacs-lisp
-  (let ((class '((class color) (min-colors 89)))
-        (default (if (true-color-p) "#abb2bf" "#afafaf"))
-        (light (if (true-color-p) "#ccd4e3" "#d7d7d7"))
-        (background (if (true-color-p) "#282c34" "#333333"))
-        (background-dark (if (true-color-p) "#24282f" "#222222"))
-        (background-darker (if (true-color-p) "#22252c" "#222222"))
-        (mode-line-inactive (if "#1c2129" "#222222"))
-        (mode-line-active (if (true-color-p) "#6f337e" "#875f87"))
-        (background-lighter (if (true-color-p) "#3a3f4b" "#5f5f5f"))
-        (background-red (if (true-color-p) "#4c3840" "#5f5f5f"))
-        (bright-background-red (if (true-color-p) "#744a5b" "#744a5b"))
-        (background-purple (if (true-color-p) "#48384c" "#5f5f5f"))
-        (background-blue (if (true-color-p) "#38394c" "#444444"))
-        (bright-background-blue (if (true-color-p) "#4e5079" "#4e5079"))
-        (background-green (if (true-color-p) "#3d4a41" "#5f5f5f"))
-        (bright-background-green (if (true-color-p) "#3f6d54" "#3f6d54"))
-        (background-orange (if (true-color-p) "#4a473d" "#5f5f5f"))
-        (hl-line (if (true-color-p) "#2c323b" "#333333"))
-        (grey (if (true-color-p) "#cccccc" "#cccccc"))
-        (grey-dark (if (true-color-p) "#666666" "#666666"))
-        (highlight (if (true-color-p) "#3e4451" "#5f5f5f"))
-        (comment (if (true-color-p) "#687080" "#707070"))
-        (orange (if (true-color-p) "#da8548" "#d7875f"))
-        (orange-light (if (true-color-p) "#ddbd78" "#d7af87"))
-        (red (if (true-color-p) "#ff6c6b" "#ff5f5f"))
-        (purple (if (true-color-p) "#c678dd" "#d787d7"))
-        (purple-dark (if (true-color-p) "#64446d" "#5f5f5f"))
-        (blue (if (true-color-p) "#61afef" "#5fafff"))
-        (blue-dark (if (true-color-p) "#1f5582" "#005f87"))
-        (green (if (true-color-p) "#98be65" "#87af5f"))
-        (green-light (if (true-color-p) "#9eac8c" "#afaf87"))
-        (peach "PeachPuff3")
-        (diff-added-background (if (true-color-p) "#284437" "#284437"))
-        (diff-added-refined-background (if (true-color-p) "#1e8967" "#1e8967"))
-        (diff-removed-background (if (true-color-p) "#583333" "#580000"))
-        (diff-removed-refined-background (if (true-color-p) "#b33c49" "#b33c49"))
-        (diff-current-background (if (true-color-p) "#29457b" "#29457b"))
-        (diff-current-refined-background (if (true-color-p) "#4174ae" "#4174ae")))
-
-    (custom-theme-set-faces
-     'zerodark
-
-     `(fancy-battery-charging ((,class (:background ,background-blue :height 1.0 :bold t))))
-     `(fancy-battery-discharging ((,class (:background ,background-blue :height 1.0))))
-     `(fancy-battery-critical ((,class (:background ,background-blue :height 1.0))))
-     
-     ;; mode line stuff
-     `(mode-line ((,class (:background ,background-blue :height 1.0 :foreground ,blue
-                                       :distant-foreground ,background-blue
-                                       :box ,(when zerodark-use-paddings-in-mode-line
-                                               (list :line-width 6 :color background-blue))))))
-     
-     `(mode-line-inactive ((,class (:background ,background-blue :height 1.0 :foreground ,default
-                                                :distant-foreground ,background-blue
-                                                :box ,(when zerodark-use-paddings-in-mode-line
-                                                        (list :line-width 6 :color background-blue))))))
-
-     `(header-line ((,class (:inherit mode-line-inactive))))
-
-     `(powerline-active0 ((,class (:height 1.0 :foreground ,blue :background ,background-blue
-                                           :distant-foreground ,background-blue))))
-     `(powerline-active1 ((,class (:height 1.0 :foreground ,blue :background ,background-blue
-                                           :distant-foreground ,background-blue))))
-     `(powerline-active2 ((,class (:height 1.0 :foreground ,blue :background ,background-blue
-                                           :distant-foreground ,background-blue))))
-     `(powerline-inactive0 ((,class (:height 1.0 :foreground ,blue :background ,background-blue
-                                             :distant-foreground ,background-blue))))
-     `(powerline-inactive1 ((,class (:height 1.0 :foreground ,blue :background ,background-blue
-                                             distant-foreground ,background-blue))))
-     `(powerline-inactive2 ((,class (:height 1.0 :foreground ,blue :background ,background-blue
-                                             :distant-foreground ,background-blue))))
-
-     `(dashboard-heading-face ((,class (:background ,background :foreground ,blue
-                                                    :bold t :height 1.2))))
-     `(dashboard-banner-logo-title-face ((,class (:background ,background :foreground ,blue
-                                                              :bold t :height 1.2))))
-     `(widget-button ((,class (:background ,background :foreground ,default :bold nil
-                                           :underline t :height 0.9))))
-     
-     ;; erc stuff
-     `(erc-nick-default-face ((,class :foreground ,blue :background ,background :weight bold)))
-
-     ;; org stuff
-     `(outline-1 ((,class (:foreground ,blue :weight bold :height 1.8 :bold nil))))
-     `(outline-2 ((,class (:foreground ,purple :weight bold :height 1.7 :bold nil))))
-     `(outline-3 ((,class (:foreground ,peach :weight bold :height 1.6 :bold nil))))
-     `(outline-4 ((,class (:foreground ,green-light :weight bold :height 1.5 :bold nil))))
-     `(outline-5 ((,class (:foreground ,blue :weight bold :height 1.4 :bold nil))))
-     `(outline-6 ((,class (:foreground ,purple :weight bold :height 1.3 :bold nil))))
-     `(outline-7 ((,class (:foreground ,peach :weight bold :height 1.2 :bold nil))))
-     `(outline-8 ((,class (:foreground ,green-light :weight bold :height 1.1 :bold nil))))
-     
-     `(org-block-begin-line ((,class (:background ,background-blue :foreground ,blue
-                                                  :bold t :height 1.0))))
-     `(org-block-end-line ((,class (:background ,background-blue :foreground ,blue
-                                                :bold t :height 1.0))))))
+  (set-frame-font "Monaco-11" nil t)
+  (setq-default tab-width 4)
+  (setq-default c-basic-offset 4)
+(setq-default tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60
+                            64 68 72 76 80 84 88 92 96 100 104 108 112 116 120))
+(setq-default indent-tabs-mode t)
+(set-face-attribute 'mode-line nil :font "Monaco-12")
 #+END_SRC
-
 * Basic Interface Settings
 These are setting that do not depend on packages and are built-in enhancements to the UI.
 
@@ -212,6 +48,7 @@ If you like using any of those, change =-1= to =1=.
 #+BEGIN_SRC emacs-lisp
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+(when window-system(scroll-bar-mode -1))
 #+END_SRC
 *** Disable bell
 This is annoying, remove this line if you like being visually reminded of events.
@@ -379,10 +216,6 @@ symon can be toggled on and off with =Super + h=.
     :bind
     ("s-h" . symon-mode))
 #+END_SRC
-
-* File manager
-Abandoning sunrise-commander.
-The repos are dead and I'm looking for something better anyway.
 
 * The terminal
 I have used urxvt for years, and I miss it sometimes, but ansi-term is enough for most of my tasks.
@@ -565,41 +398,41 @@ I give in, helm is awesome. I'll end up customizing it more eventually,
 it's rather similar to ido-vertical though.
 *** helm
 #+BEGIN_SRC emacs-lisp
-  (use-package helm
-    :ensure t
-    :bind
-    ("C-x C-f" . 'helm-find-files)
-    ("C-x C-b" . 'helm-buffers-list)
-    ("M-x" . 'helm-M-x)
-    :config
-    (defun daedreth/helm-hide-minibuffer ()
-      (when (with-helm-buffer helm-echo-input-in-header-line)
-        (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
-          (overlay-put ov 'window (selected-window))
-          (overlay-put ov 'face
-                       (let ((bg-color (face-background 'default nil)))
-                         `(:background ,bg-color :foreground ,bg-color)))
-          (setq-local cursor-type nil))))
-    (add-hook 'helm-minibuffer-set-up-hook 'daedreth/helm-hide-minibuffer)
-    (setq helm-autoresize-max-height 0
-          helm-autoresize-min-height 40
-          helm-M-x-fuzzy-match t
-          helm-buffers-fuzzy-matching t
-          helm-recentf-fuzzy-match t
-          helm-semantic-fuzzy-match t
-          helm-imenu-fuzzy-match t
-          helm-split-window-in-side-p nil
-          helm-move-to-line-cycle-in-source nil
-          helm-ff-search-library-in-sexp t
-          helm-scroll-amount 8 
-          helm-echo-input-in-header-line t)
-    :init
-    (helm-mode 1))
+    (use-package helm
+      :ensure t
+      :bind
+      ("C-x C-f" . 'helm-find-files)
+      ("C-x C-b" . 'helm-buffers-list)
+      ("M-x" . 'helm-M-x)
+      :config
+      (defun daedreth/helm-hide-minibuffer ()
+        (when (with-helm-buffer helm-echo-input-in-header-line)
+          (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
+            (overlay-put ov 'window (selected-window))
+            (overlay-put ov 'face
+                         (let ((bg-color (face-background 'default nil)))
+                           `(:background ,bg-color :foreground ,bg-color)))
+            (setq-local cursor-type nil))))
+      (add-hook 'helm-minibuffer-set-up-hook 'daedreth/helm-hide-minibuffer)
+      (setq helm-autoresize-max-height 0
+            helm-autoresize-min-height 40
+            helm-M-x-fuzzy-match t
+            helm-buffers-fuzzy-matching t
+            helm-recentf-fuzzy-match t
+            helm-semantic-fuzzy-match t
+            helm-imenu-fuzzy-match t
+            helm-split-window-in-side-p nil
+            helm-move-to-line-cycle-in-source nil
+            helm-ff-search-library-in-sexp t
+            helm-scroll-amount 8 
+            helm-echo-input-in-header-line t)
+      :init
+      (helm-mode 1))
 
-  (require 'helm-config)    
-  (helm-autoresize-mode 1)
-  (define-key helm-find-files-map (kbd "C-b") 'helm-find-files-up-one-level)
-  (define-key helm-find-files-map (kbd "C-f") 'helm-execute-persistent-action)
+    (require 'helm-config)    
+    (helm-autoresize-mode 1)
+    (define-key helm-find-files-map (kbd "C-b") 'helm-find-files-up-one-level)
+    (define-key helm-find-files-map (kbd "C-f") 'helm-execute-persistent-action)
 #+END_SRC
 
 ** avy and why it's the best thing in existence
@@ -1028,18 +861,6 @@ great. It's easy and intuitive to use, shows its options at a keypress and much 
     ("M-g" . magit-status))
 #+END_SRC
 
-* Remote editing
-I have no need to directly edit files over SSH, but what I do need is a way to edit files as root.
-Opening up nano in a terminal as root to play around with grubs default settings is a no-no, this solves that.
-
-** Editing with sudo
-Pretty self-explanatory, useful as hell if you use exwm.
-#+BEGIN_SRC emacs-lisp
-  (use-package sudo-edit
-    :ensure t
-    :bind
-      ("s-e" . sudo-edit))
-#+END_SRC
 * Org
 One of the absolute greatest features of emacs is called "org-mode".
 This very file has been written in org-mode, a lot of other configurations are written in org-mode, same goes for
@@ -1079,14 +900,6 @@ Those are all rather self-explanatory.
   (global-set-key (kbd "C-c '") 'org-edit-src-code)
 #+END_SRC
 
-** Org Bullets
-Makes it all look a bit nicer, I hate looking at asterisks.
-#+BEGIN_SRC emacs-lisp
-  (use-package org-bullets
-    :ensure t
-    :config
-      (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
-#+END_SRC
 
 ** Easy-to-add emacs-lisp template
 Hitting tab after an "<el" in an org-mode file will create a template for elisp insertion.
@@ -1111,155 +924,21 @@ Here is how we add more of them!
     :ensure t)
 #+END_SRC
 
-* Diminishing modes
-Your modeline is sacred, and if you have a lot of modes enabled, as you will if you use this config,
-you might end up with a lot of clutter there, the package =diminish= disables modes on the mode line but keeps
-them running, it just prevents them from showing up and taking up space.
-
-*THIS WILL BE REMOVED SOON AS USE-PACKAGE HAS THE FUNCTIONALITY BUILT IN*
-
-Edit this list as you see fit!
+** Org Bullets
+Makes it all look a bit nicer, I hate looking at asterisks.
 #+BEGIN_SRC emacs-lisp
-  (use-package diminish
+  (use-package org-bullets
     :ensure t
     :init
-    (diminish 'which-key-mode)
-    (diminish 'linum-relative-mode)
-    (diminish 'hungry-delete-mode)
-    (diminish 'visual-line-mode)
-    (diminish 'subword-mode)
-    (diminish 'beacon-mode)
-    (diminish 'irony-mode)
-    (diminish 'page-break-lines-mode)
-    (diminish 'auto-revert-mode)
-    (diminish 'rainbow-delimiters-mode)
-    (diminish 'rainbow-mode)
-    (diminish 'yas-minor-mode)
-    (diminish 'flycheck-mode)
-    (diminish 'helm-mode))
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 #+END_SRC
 
-* Instant messaging
-I like IRC, I also like other protocols but I enjoy IRC most, it's obvious that I long
-for a way to do my messaging from within emacs.
-There is plenty of IRC clients in the repositories, and some more in the emacs repositories
-but I find that the default =erc= does the job best, it's easy to use and offers some conveniences
-that more sophisticated ones don't, so I use it.
-
-** erc, also known as "a way to ask for help on #emacs"
-You might want to edit the default nick, it's password protected anyway so don't bother.
-
-*** Some common settings
-This also hides some of the channel messages to avoid cluttering the buffer.
-The other line changes the prompt for each channel buffer to match the channel name,
-this way you always know who you are typing to.
+* Neo Tree
 #+BEGIN_SRC emacs-lisp
-  (setq erc-nick "daedreth")
-  (setq erc-prompt (lambda () (concat "[" (buffer-name) "]")))
-  (setq erc-hide-list '("JOIN" "PART" "QUIT"))
-#+END_SRC
-
-*** Poor mans selectable server list
-What it says on the tin, this changes the =erc= history to include the server I connect to often.
-#+BEGIN_SRC emacs-lisp
-  (setq erc-server-history-list '("irc.freenode.net"
-                                  "localhost"))
-#+END_SRC
-
-*** Nick highlighting
-You can even highlight nicks to make the buffers a bit more visually pleasing and easier to look at.
-#+BEGIN_SRC emacs-lisp
-(use-package erc-hl-nicks
-  :ensure t
-  :config
-    (erc-update-modules))
-#+END_SRC
-
-** rich presence for discord
-Memes, but it's fun and tiny.
-#+BEGIN_SRC emacs-lisp
-  (use-package elcord
-    :ensure t)
-#+END_SRC
-
-* Media
-Why bother with an external media manager when emacs is a thing.
-EMMS is huge, incredibly powerful and luckily well documented.
-All I need it for is to play music and video, that's it.
-I also need it to display metadata on the modeline correctly, which it does with mpd automatically.
-
-** EMMS with mpd
-There is many backends, many players and codecs for EMMS, we use mpd now.
-
-*** Basic setup for mpd
-The non XF86 keys are made to be somewhat logical to follow and easy to remember.
-At the bottom part of the configuration, you will notice how XF86 keys are used
-by default, so unless you keyboard is broken it should work out of the box.
-Obviously you might have to adjust /server-name/ and /server-port/ to fit your configuration.
-#+BEGIN_SRC emacs-lisp
-  (use-package emms
+  (use-package neotree
     :ensure t
-    :config
-      (require 'emms-setup)
-      (require 'emms-player-mpd)
-      (emms-all) ; don't change this to values you see on stackoverflow questions if you expect emms to work
-      (setq emms-seek-seconds 5)
-      (setq emms-player-list '(emms-player-mpd))
-      (setq emms-info-functions '(emms-info-mpd))
-      (setq emms-player-mpd-server-name "localhost")
-      (setq emms-player-mpd-server-port "6601")
-    :bind
-      ("s-m p" . emms)
-      ("s-m b" . emms-smart-browse)
-      ("s-m r" . emms-player-mpd-update-all-reset-cache)
-      ("<XF86AudioPrev>" . emms-previous)
-      ("<XF86AudioNext>" . emms-next)
-      ("<XF86AudioPlay>" . emms-pause)
-      ("<XF86AudioStop>" . emms-stop))
-#+END_SRC
-
-*** MPC Setup
-**** Setting the default port
-We use non-default settings for the socket, to use the built in =mpc= functionality we need to set up a variable.
-Adjust according to your setup.
-#+BEGIN_SRC emacs-lisp
-  (setq mpc-host "localhost:6601")
-#+END_SRC
-
-*** Some more fun stuff
-**** Starting the daemon from within emacs
-If you have an absolutely massive music library, it might be a good idea to get rid of =mpc-update=
-and only invoke it manually when needed.
-#+BEGIN_SRC emacs-lisp
-  (defun mpd/start-music-daemon ()
-    "Start MPD, connects to it and syncs the metadata cache."
-    (interactive)
-    (shell-command "mpd")
-    (mpd/update-database)
-    (emms-player-mpd-connect)
-    (emms-cache-set-from-mpd-all)
-    (message "MPD Started!"))
-  (global-set-key (kbd "s-m c") 'mpd/start-music-daemon)
-#+END_SRC
-
-**** Killing the daemon from within emacs
-#+BEGIN_SRC emacs-lisp
-  (defun mpd/kill-music-daemon ()
-    "Stops playback and kill the music daemon."
-    (interactive)
-    (emms-stop)
-    (call-process "killall" nil nil nil "mpd")
-    (message "MPD Killed!"))
-  (global-set-key (kbd "s-m k") 'mpd/kill-music-daemon)
-#+END_SRC
-**** Updating the database easily.
-#+BEGIN_SRC emacs-lisp
-  (defun mpd/update-database ()
-    "Updates the MPD database synchronously."
-    (interactive)
-    (call-process "mpc" nil nil nil "update")
-    (message "MPD Database Updated!"))
-  (global-set-key (kbd "s-m u") 'mpd/update-database)
+    :init
+    (global-set-key [f8] 'neotree-toggle))
 #+END_SRC
 * header 42
 #+BEGIN_SRC emacs-lisp
@@ -1268,17 +947,7 @@ and only invoke it manually when needed.
 (load "~/.emacs.d/comments.el")
 (load "~/.emacs.d/header.el")
 #+END_SRC
-* conf C 42
-#+BEGIN_SRC emacs-lisp
-(set-language-environment "UTF-8")
-(setq-default font-lock-global-modes nil)
-(setq-default line-number-mode nil)
-(setq-default tab-width 4)
-(setq-default indent-tabs-mode t)
-(global-set-key (kbd "DEL") 'backward-delete-char)
-(setq-default c-backspace-function 'backward-delete-char)
-(setq-default c-basic-offset 4)
-(setq-default c-default-style "linux")
-(setq-default tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60
-                            64 68 72 76 80 84 88 92 96 100 104 108 112 116 120))
-#+END_SRC
+
+
+
+
