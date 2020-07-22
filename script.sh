@@ -1,4 +1,7 @@
-#!/usr/bin/env bash
-ln -sf ~/dotfiles/.emacs.d/ ~/.emacs.d
-ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf
-ln -s ~/dotfiles/.bashrc ~/.bashrc
+#!/usr/bin/env zsh
+rm -rf  ~/.emacs.d
+ln -s ~/Dotfiles/.emacs.d/ ~/.emacs.d
+rm ~/.tmux.conf
+ln -s ~/Dotfiles/.tmux.conf ~/.tmux.conf
+rm ~/.zshrc
+ln -s ~/Dotfiles/.zshrc ~/.zshrc
