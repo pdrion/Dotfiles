@@ -20,8 +20,13 @@ My new favourite one I guess, really decent default values.
 
 ** Some customization
 The theme is great, really, but some of the concepts just suck with powerline.
+
 #+BEGIN_SRC emacs-lisp
-  (set-frame-font "Monaco-11" nil t)
+(setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin"))
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+;;(setq exec-path (append exec-path '("/usr/local/bin")))
+;;(setq exec-path (append exec-path '("/usr/local/bin")))
+(set-frame-font "Monaco-11" nil t)
   (setq-default tab-width 4)
   (setq-default c-basic-offset 4)
 (setq-default tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60
@@ -29,6 +34,7 @@ The theme is great, really, but some of the concepts just suck with powerline.
 (setq-default indent-tabs-mode t)
 (set-face-attribute 'mode-line nil :font "Monaco-12")
 #+END_SRC
+
 * Basic Interface Settings
 These are setting that do not depend on packages and are built-in enhancements to the UI.
 
@@ -94,7 +100,6 @@ Lets us use asynchronous processes wherever possible, pretty useful.
     :ensure t
     :init (dired-async-mode 1))
 #+END_SRC
-
 * Projectile
 Projectile is an awesome project manager, mostly because it recognizes directories
 with a =.git= directory as projects and helps you manage them accordingly.
@@ -450,13 +455,33 @@ I like =M-s= for it, same as =C-s= is for moving by searching string, now =M-s= 
 
 * Text manipulation
 Here I shall collect self-made functions that make editing text easier.
-
+** Text Selection
+#+BEGIN_SRC emacs-lisp
+(use-package selected
+  :ensure t
+  :commands selected-minor-mode
+  :bind (:map selected-keymap
+              ("q" . selected-off)
+              ("u" . upcase-region)
+              ("d" . downcase-region)
+              ("w" . count-words-region)
+              ("m" . apply-macro-to-region-lines)))
+#+END_SRC
+** Multiple-cursors
+multiple cursor package to enforce my coding
+#+BEGIN_SRC emacs-lisp
+      (require 'multiple-cursors)
+  (global-set-key (kbd "C-c s") 'mc/edit-lines)
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+#+END_SRC
 ** Mark-Multiple
 I can barely contain my joy. This extension allows you to quickly mark the next occurence of a region and edit them all at once. Wow!
 #+BEGIN_SRC emacs-lisp
-  (use-package mark-multiple
-    :ensure t
-    :bind ("C-c q" . 'mark-next-like-this))
+(use-package mark-multiple
+  :ensure t
+  :bind ("C-c q" . 'mark-next-like-this))
 #+END_SRC
 
 ** Improved kill-word
@@ -668,18 +693,19 @@ it starts doing its magic after typing in only 2 characters.
 
 I prefer =C-n= and =C-p= to move around the items, so I remap those accordingly.
 #+BEGIN_SRC emacs-lisp
-  (use-package company
-    :ensure t
-    :config
-    (setq company-idle-delay 0)
-    (setq company-minimum-prefix-length 3))
+    (use-package company
+      :ensure t
+      :config
+      (add-hook 'after-init-hook 'global-company-mode)
+      (setq company-idle-delay 0)
+      (setq company-minimum-prefix-length 2))
 
-  (with-eval-after-load 'company
-    (define-key company-active-map (kbd "M-n") nil)
-    (define-key company-active-map (kbd "M-p") nil)
-    (define-key company-active-map (kbd "C-n") #'company-select-next)
-    (define-key company-active-map (kbd "C-p") #'company-select-previous)
-    (define-key company-active-map (kbd "SPC") #'company-abort))
+    (with-eval-after-load 'company
+      (define-key company-active-map (kbd "M-n") nil)
+      (define-key company-active-map (kbd "M-p") nil)
+      (define-key company-active-map (kbd "C-n") #'company-select-next)
+      (define-key company-active-map (kbd "C-p") #'company-select-previous)
+      (define-key company-active-map (kbd "SPC") #'company-abort))
 #+END_SRC
 
 ** specific languages
@@ -841,6 +867,28 @@ I needed to do some shenanigans to get great auto-completion but here goes.
   (global-set-key (kbd "<f9>") '(lambda () (interactive) (start-process "love-play-game" nil "love" default-directory)))
 #+END_SRC
 
+*** TypeScript
+#+BEGIN_SRC emacs-lisp
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+
+;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+
+;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+#+END_SRC
 * Git integration
 Countless are the times where I opened ansi-term to use =git= on something.
 These times are also something that I'd prefer stay in the past, since =magit= is
@@ -908,11 +956,11 @@ One of the best things about org is the ability to export your file to many form
 Here is how we add more of them!
 
 *** latex
-#+BEGIN_SRC emacs-lisp
-  (when (file-directory-p "/usr/share/emacs/site-lisp/tex-utils")
-    (add-to-list 'load-path "/usr/share/emacs/site-lisp/tex-utils")
-    (require 'xdvi-search))
-#+END_SRC
+;#+BEGIN_SRC emacs-lisp
+;  (when (file-directory-p "/usr/share/emacs/site-lisp/tex-utils")
+ ;   (add-to-list 'load-path "/usr/share/emacs/site-lisp/tex-utils")
+  ;  (require 'xdvi-search))
+;#+END_SRC
 *** Twitter Bootstrap
 #+BEGIN_SRC emacs-lisp
   (use-package ox-twbs
@@ -928,12 +976,98 @@ Makes it all look a bit nicer, I hate looking at asterisks.
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 #+END_SRC
 
-* Neo Tree
+* Treemacs 
 #+BEGIN_SRC emacs-lisp
-  (use-package neotree
-    :ensure t
-    :init
-    (global-set-key (kbd "C-c t") 'neotree-toggle))
+(use-package treemacs
+  :ensure t
+  :defer t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :config
+  (progn
+    (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
+          treemacs-deferred-git-apply-delay      0.5
+          treemacs-directory-name-transformer    #'identity
+          treemacs-display-in-side-window        t
+          treemacs-eldoc-display                 t
+          treemacs-file-event-delay              5000
+          treemacs-file-extension-regex          treemacs-last-period-regex-value
+          treemacs-file-follow-delay             0.2
+          treemacs-file-name-transformer         #'identity
+          treemacs-follow-after-init             t
+          treemacs-git-command-pipe              ""
+          treemacs-goto-tag-strategy             'refetch-index
+          treemacs-indentation                   2
+          treemacs-indentation-string            " "
+          treemacs-is-never-other-window         nil
+          treemacs-max-git-entries               5000
+          treemacs-missing-project-action        'ask
+          treemacs-no-png-images                 nil
+          treemacs-no-delete-other-windows       t
+          treemacs-project-follow-cleanup        nil
+          treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+          treemacs-position                      'left
+          treemacs-recenter-distance             0.1
+          treemacs-recenter-after-file-follow    nil
+          treemacs-recenter-after-tag-follow     nil
+          treemacs-recenter-after-project-jump   'always
+          treemacs-recenter-after-project-expand 'on-distance
+          treemacs-show-cursor                   nil
+          treemacs-show-hidden-files             t
+          treemacs-silent-filewatch              nil
+          treemacs-silent-refresh                nil
+          treemacs-sorting                       'alphabetic-asc
+          treemacs-space-between-root-nodes      t
+          treemacs-tag-follow-cleanup            t
+          treemacs-tag-follow-delay              1.5
+          treemacs-width                         35)
+
+    ;; The default width and height of the icons is 22 pixels. If you are
+    ;; using a Hi-DPI display, uncomment this to double the icon size.
+    ;;(treemacs-resize-icons 44)
+
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode t)
+    (pcase (cons (not (null (executable-find "git")))
+                 (not (null treemacs-python-executable)))
+      (`(t . t)
+       (treemacs-git-mode 'deferred))
+      (`(t . _)
+       (treemacs-git-mode 'simple))))
+  :bind
+  (:map global-map
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t t"   . treemacs)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
+
+(use-package treemacs-projectile
+  :after treemacs projectile
+  :ensure t)
+
+(use-package treemacs-icons-dired
+  :after treemacs dired
+  :ensure t
+  :config (treemacs-icons-dired-mode))
+
+(use-package treemacs-magit
+  :after treemacs magit
+  :ensure t)
+
+(use-package treemacs-persp
+  :after treemacs persp-mode
+  :ensure t
+  :config (treemacs-set-scope-type 'Perspectives))
+
+
+;;  (use-package neotree
+;;    :ensure t
+;;    :init
+;;    (global-set-key (kbd "C-c t") 'neotree-toggle))
 #+END_SRC
 * header 42
 #+BEGIN_SRC emacs-lisp
@@ -942,7 +1076,3 @@ Makes it all look a bit nicer, I hate looking at asterisks.
 (load "~/.emacs.d/comments.el")
 (load "~/.emacs.d/header.el")
 #+END_SRC
-
-
-
-
