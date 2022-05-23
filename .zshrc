@@ -7,3 +7,6 @@ alias comp="gcc -Wall -Werror -Wextra"
 alias flaga="-fsanitize=address -O0"
 alias compa="comp flaga"
 alias emacs='emacs -nw'
+alias norminette="~/.norminette/norminette.rb"
+alias norminette="~/.norminette/norminette.rb"
+export PATH="$PATH:/Users/philippedrion/Documents/flutter/bin"
