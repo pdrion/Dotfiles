@@ -9,4 +9,5 @@ alias compa="comp flaga"
 alias emacs='emacs -nw'
 alias norminette="~/.norminette/norminette.rb"
 alias norminette="~/.norminette/norminette.rb"
-export PATH="$PATH:/Users/philippedrion/Documents/flutter/bin"
+export PATH="$PATH:/usr/local/Caskroom/flutter/2.2.3/flutter/bin"
+export NO_PROXY=localhost,127.0.0.1
