@@ -1,0 +1,13 @@
+# State when last error occurred on 2022-05-25 08:57:41
+# Error was (user-error Command attempted to use minibuffer while in minibuffer)
+
+* OnGoing
+** dotfiles
+ - path :: ~/dotfiles
+** ft_printf
+ - path :: ~/Documents/42/projet/ft_printf
+** spoke_app
+ - path :: ~/Documents/FREELANCE/PROJETS/SPOKE/Dev/spoke_app
+* No Perspective
+** philippedrion
+ - path :: ~
