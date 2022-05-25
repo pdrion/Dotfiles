@@ -16,6 +16,8 @@ recentf
 smex-items
 tramp
 emms
+var
+.cache
 auto-save-list
 elpa
 transient
