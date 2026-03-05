@@ -1,97 +1,95 @@
 #!/bin/bash
 # =============================================================================
-# tmux-help.sh — Pense-bete tmux + Claude Code (s'affiche dans less)
+# tmux-help.sh — Pense-bete tmux + Claude Code
 # Usage: thelp
 # =============================================================================
 
-less << 'EOF'
+C='\033[0;36m'
+G='\033[0;32m'
+Y='\033[1;33m'
+B='\033[1m'
+D='\033[2m'
+N='\033[0m'
 
-  ╔═══════════════════════════════════════════════════╗
-  ║       TMUX + CLAUDE CODE — PENSE-BETE            ║
-  ║       Prefixe = Ctrl-b (standard)                ║
-  ╚═══════════════════════════════════════════════════╝
+{
+echo -e "
+  ${B}╔═══════════════════════════════════════════════════╗${N}
+  ${B}║       TMUX + CLAUDE CODE — PENSE-BETE            ║${N}
+  ${B}║       Prefixe = Ctrl-b (standard)                ║${N}
+  ${B}╚═══════════════════════════════════════════════════╝${N}
 
+${B}━━━ MES ALIASES ${D}(dans le terminal, PAS dans Claude Code)${N} ${B}━━━${N}
 
-━━━ MES ALIASES (dans le terminal, PAS dans Claude Code) ━━━
+  ${G}ts${N}           Lancer toutes les sessions
+  ${G}tw${N}           Selecteur interactif de session
+  ${G}tl${N}           Lister les sessions actives
+  ${G}ta${N} <nom>     S'attacher ${D}(ex: ta meetingbaas)${N}
+  ${G}tk${N} <nom>     Tuer une session ${D}(ex: tk art_spy)${N}
+  ${G}dsync${N}        Synchroniser les dotfiles
+  ${G}thelp${N}        Cette aide
 
-  ts           Lancer toutes les sessions
-  tw           Selecteur interactif de session
-  tl           Lister les sessions actives
-  ta <nom>     S'attacher (ex: ta meetingbaas)
-  tk <nom>     Tuer une session (ex: tk art_spy)
-  dsync        Synchroniser les dotfiles
-  thelp        Cette aide
+  ${C}mb${N} → meetingbaas     ${C}pa${N} → phiphi_assist
+  ${C}as${N} → art_spy         ${C}ro${N} → ringoverr
+  ${C}mma${N} → mac_mini_admin
 
-  mb → meetingbaas     pa → phiphi_assist
-  as → art_spy         ro → ringoverr
-  mma → mac_mini_admin
+${B}━━━ SESSIONS ${D}(= tes projets)${N} ${B}━━━${N}
 
+  ${G}Ctrl-b s${N}     Arbre des sessions (naviguer + Enter)
+  ${G}Ctrl-b )${N}     Session suivante
+  ${G}Ctrl-b (${N}     Session precedente
+  ${G}Ctrl-b d${N}     Se detacher (rien ne se perd)
+  ${G}Ctrl-b \$${N}     Renommer la session
 
-━━━ SESSIONS (= tes projets) ━━━
+${B}━━━ FENETRES ${D}(= onglets)${N} ${B}━━━${N}
 
-  Ctrl-b s     Arbre des sessions (naviguer + Enter)
-  Ctrl-b )     Session suivante
-  Ctrl-b (     Session precedente
-  Ctrl-b d     Se detacher (rien ne se perd)
-  Ctrl-b $     Renommer la session
+  ${G}Ctrl-b n${N}     Fenetre suivante
+  ${G}Ctrl-b p${N}     Fenetre precedente
+  ${G}Ctrl-b w${N}     Liste des fenetres
+  ${G}Ctrl-b 1${N}     → code
+  ${G}Ctrl-b 2${N}     → term
+  ${G}Ctrl-b 3${N}     → logs
+  ${G}Ctrl-b c${N}     Nouvelle fenetre
+  ${G}Ctrl-b ,${N}     Renommer
 
+${B}━━━ PANNEAUX (SPLITS) ━━━${N}
 
-━━━ FENETRES (= onglets) ━━━
+  ${G}Ctrl-b |${N}     Split horizontal (cote a cote)
+  ${G}Ctrl-b -${N}     Split vertical (dessus/dessous)
+  ${G}Ctrl-b hjkl${N}  Naviguer entre panneaux
+  ${G}Ctrl-b HJKL${N}  Redimensionner
+  ${G}Ctrl-b x${N}     Fermer le panneau
+  ${G}Ctrl-b z${N}     Zoom/dezoom
 
-  Ctrl-b n     Fenetre suivante
-  Ctrl-b p     Fenetre precedente
-  Ctrl-b w     Liste des fenetres
-  Ctrl-b 1     → code
-  Ctrl-b 2     → term
-  Ctrl-b 3     → logs
-  Ctrl-b c     Nouvelle fenetre
-  Ctrl-b ,     Renommer
+${B}━━━ COPIER / COLLER ━━━${N}
 
+  ${G}Ctrl-b [${N}     Mode copie (q pour quitter)
 
-━━━ PANNEAUX (SPLITS) ━━━
+${B}━━━ PERSISTENCE ━━━${N}
 
-  Ctrl-b |     Split horizontal (cote a cote)
-  Ctrl-b -     Split vertical (dessus/dessous)
-  Ctrl-b hjkl  Naviguer entre panneaux
-  Ctrl-b HJKL  Redimensionner
-  Ctrl-b x     Fermer le panneau
-  Ctrl-b z     Zoom/dezoom
+  ${G}Ctrl-b Ctrl-s${N}   Sauvegarder maintenant
+  ${G}Ctrl-b Ctrl-r${N}   Restaurer
+  ${D}(sauvegarde auto toutes les 15 min)${N}
 
+${B}━━━ CLAUDE CODE ━━━${N}
 
-━━━ COPIER / COLLER ━━━
+  ${Y}Lancer (dans le terminal) :${N}
+    ${G}claude${N}         Nouvelle conversation
+    ${G}claude -c${N}      Reprendre la derniere du dossier
+    ${G}claude -r${N}      Choisir une conversation
 
-  Souris : selectionner = copie auto, clic droit = colle
-  Ctrl-b [     Mode copie manuel (q pour quitter)
+  ${Y}Dans Claude Code :${N}
+    ${G}/resume${N}   ${G}/compact${N}   ${G}/cost${N}   ${G}/clear${N}   ${G}/help${N}
 
+${B}━━━ WORKFLOW ━━━${N}
 
-━━━ PERSISTENCE ━━━
+  Matin :  ${G}tw${N} ou ${C}mb/pa/as/ro/mma${N}
+  Bosser : ${G}claude -c${N} dans la fenetre code
+  Switch : ${G}Ctrl-b s${N}
+  Soir :   ${G}Ctrl-b d${N} (tout continue en arriere-plan)
 
-  Ctrl-b Ctrl-s   Sauvegarder maintenant
-  Ctrl-b Ctrl-r   Restaurer
-  (sauvegarde auto toutes les 15 min)
+  ${G}Ctrl-b r${N}     Recharger la config tmux
+  ${G}Ctrl-b ?${N}     TOUS les raccourcis tmux
 
-
-━━━ CLAUDE CODE ━━━
-
-  Lancer (dans le terminal) :
-    claude         Nouvelle conversation
-    claude -c      Reprendre la derniere du dossier
-    claude -r      Choisir une conversation
-
-  Dans Claude Code :
-    /resume   /compact   /cost   /clear   /help
-
-
-━━━ WORKFLOW ━━━
-
-  Matin :  tw ou mb/pa/as/ro/mma
-  Bosser : claude -c dans la fenetre "code"
-  Switch : Ctrl-b s
-  Soir :   Ctrl-b d (tout continue en arriere-plan)
-
-
-  Ctrl-b r     Recharger la config tmux
-  Ctrl-b ?     TOUS les raccourcis tmux
-
-  (q pour quitter cette aide)
-EOF
+  ${D}(q pour quitter cette aide)${N}
+"
+} | less -R
