@@ -7,6 +7,7 @@
 C='\033[0;36m'
 G='\033[0;32m'
 Y='\033[1;33m'
+R='\033[0;31m'
 B='\033[1m'
 D='\033[2m'
 N='\033[0m'
@@ -62,7 +63,20 @@ ${B}━━━ PANNEAUX (SPLITS) ━━━${N}
 
 ${B}━━━ COPIER / COLLER ━━━${N}
 
-  ${G}Ctrl-b [${N}     Mode copie (q pour quitter)
+  ${Y}Methode 1 — Mode copie tmux (recommande) :${N}
+    ${G}Ctrl-b [${N}       Entrer en mode copie
+    ${D}(tu peux scroller avec les fleches ou la souris)${N}
+    ${G}Espace${N}         Commencer la selection
+    ${D}(deplace le curseur avec les fleches pour selectionner)${N}
+    ${G}Enter${N}          Copier la selection
+    ${G}Ctrl-b ]${N}       Coller
+
+  ${Y}Methode 2 — Copier vers le presse-papier macOS :${N}
+    ${G}Ctrl-b [${N}       Entrer en mode copie
+    ${G}v${N}              Commencer la selection
+    ${G}y${N}              Copier dans le presse-papier (Cmd-V pour coller)
+
+  ${G}q${N}              Quitter le mode copie sans rien faire
 
 ${B}━━━ PERSISTENCE ━━━${N}
 
@@ -75,7 +89,11 @@ ${B}━━━ CLAUDE CODE ━━━${N}
   ${Y}Lancer (dans le terminal) :${N}
     ${G}claude${N}         Nouvelle conversation
     ${G}claude -c${N}      Reprendre la derniere du dossier
-    ${G}claude -r${N}      Choisir une conversation
+    ${G}claude -r${N}      Choisir parmi les conversations passees
+
+  ${R}ATTENTION :${N} claude -c et -r cherchent dans le dossier courant.
+  Si tu n'as jamais lance claude dans ce dossier, il n'y a rien.
+  Lance juste ${G}claude${N} pour commencer.
 
   ${Y}Dans Claude Code :${N}
     ${G}/resume${N}   ${G}/compact${N}   ${G}/cost${N}   ${G}/clear${N}   ${G}/help${N}
@@ -83,7 +101,7 @@ ${B}━━━ CLAUDE CODE ━━━${N}
 ${B}━━━ WORKFLOW ━━━${N}
 
   Matin :  ${G}tw${N} ou ${C}mb/pa/as/ro/mma${N}
-  Bosser : ${G}claude -c${N} dans la fenetre code
+  Bosser : ${G}claude${N} ou ${G}claude -c${N} dans la fenetre code
   Switch : ${G}Ctrl-b s${N}
   Soir :   ${G}Ctrl-b d${N} (tout continue en arriere-plan)
 
