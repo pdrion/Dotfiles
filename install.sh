@@ -48,6 +48,15 @@ if [ ! -f ~/.tmux.local.conf ]; then
     echo -e "${GREEN}[create]${NC} ~/.tmux.local.conf"
 fi
 
+# Importer le profil Terminal.app bleu (machines locales uniquement)
+if [ -z "$SSH_CONNECTION" ] && [ -f "$DOTFILES_DIR/local/Bleu-Local.terminal" ]; then
+    open "$DOTFILES_DIR/local/Bleu-Local.terminal"
+    sleep 1
+    defaults write com.apple.Terminal "Default Window Settings" -string "Bleu Local"
+    defaults write com.apple.Terminal "Startup Window Settings" -string "Bleu Local"
+    echo -e "${GREEN}[terminal]${NC} Profil 'Bleu Local' importe et defini par defaut"
+fi
+
 # Ajouter les aliases dans .zshrc si pas deja present
 if ! grep -q "Tmux Workspaces" ~/.zshrc 2>/dev/null; then
     cat >> ~/.zshrc << 'ALIASES'
