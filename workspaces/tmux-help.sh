@@ -30,7 +30,7 @@ ${B}━━━ MES ALIASES ${D}(dans le terminal, PAS dans Claude Code)${N} ${B}�
   ${G}thelp${N}        Cette aide
 
   ${C}mb${N} → meetingbaas     ${C}pa${N} → phiphi_assist
-  ${C}as${N} → art_spy         ${C}ro${N} → ringoverr
+  ${C}as${N} → art_spy         ${C}ro${N} → ringover
   ${C}mma${N} → mac_mini_admin
 
 ${B}━━━ SESSIONS ${D}(= tes projets)${N} ${B}━━━${N}

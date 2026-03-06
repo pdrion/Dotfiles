@@ -10,7 +10,7 @@ Tu te detaches, tu fermes ton terminal, tu reviens plus tard : **tout est toujou
 ├── meetingbaas/       # Projet MeetingBaas
 ├── phiphi_assist/     # Projet Phiphi Assist
 ├── art_spy/           # Projet Art Spy
-├── ringoverr/         # Projet Ringoverr
+├── ringover/         # Projet Ringoverr
 ├── mac_mini_admin/    # Admin Mac Mini
 ├── tmux-start.sh      # Lance les 4 sessions + Claude Code
 ├── tmux-attach.sh     # Selecteur interactif
@@ -45,7 +45,7 @@ Chaque session a **3 fenetres** :
 | `mb`  | meetingbaas |
 | `pa`  | phiphi_assist |
 | `as`  | art_spy |
-| `ro`  | ringoverr |
+| `ro`  | ringover |
 | `mma` | mac_mini_admin |
 
 ---

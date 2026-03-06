@@ -45,7 +45,7 @@ echo ""
 create_session "meetingbaas"
 create_session "phiphi_assist"
 create_session "art_spy"
-create_session "ringoverr"
+create_session "ringover"
 create_session "mac_mini_admin"
 
 echo ""

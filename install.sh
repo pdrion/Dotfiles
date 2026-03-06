@@ -33,7 +33,7 @@ echo ""
 
 # Creer les dossiers necessaires
 echo -e "${GREEN}[mkdir]${NC} ~/workspaces/ et sous-dossiers projets"
-mkdir -p ~/workspaces/{meetingbaas,phiphi_assist,art_spy,ringoverr,mac_mini_admin}
+mkdir -p ~/workspaces/{meetingbaas,phiphi_assist,art_spy,ringover,mac_mini_admin}
 
 # Liens symboliques
 link_file "tmux.conf" ".tmux.conf"
@@ -67,7 +67,7 @@ alias dsync='~/dotfiles/sync.sh'              # Sync dotfiles entre machines
 alias mb='tmux attach-session -t meetingbaas 2>/dev/null || echo "Session meetingbaas absente — lance ts"'
 alias pa='tmux attach-session -t phiphi_assist 2>/dev/null || echo "Session phiphi_assist absente — lance ts"'
 alias as='tmux attach-session -t art_spy 2>/dev/null || echo "Session art_spy absente — lance ts"'
-alias ro='tmux attach-session -t ringoverr 2>/dev/null || echo "Session ringoverr absente — lance ts"'
+alias ro='tmux attach-session -t ringover 2>/dev/null || echo "Session ringover absente — lance ts"'
 alias mma='tmux attach-session -t mac_mini_admin 2>/dev/null || echo "Session mac_mini_admin absente — lance ts"'
 
 # Auto-lancement des sessions tmux au login (si pas deja dans tmux)
