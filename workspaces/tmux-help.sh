@@ -16,119 +16,105 @@ N='\033[0m'
 echo -e "
   ${B}╔═══════════════════════════════════════════════════╗${N}
   ${B}║       TMUX + CLAUDE CODE — PENSE-BETE            ║${N}
-  ${B}║       Prefixe = Ctrl-b (standard)                ║${N}
+  ${B}║       Prefixe = Ctrl-b puis la touche             ║${N}
   ${B}╚═══════════════════════════════════════════════════╝${N}
 
-${B}━━━ MES ALIASES ${D}(dans le terminal, PAS dans Claude Code)${N} ${B}━━━${N}
+${B}━━━ MES ALIASES ━━━${N}
 
-  ${G}ts${N}           Lancer toutes les sessions
-  ${G}tw${N}           Selecteur interactif de session
-  ${G}tl${N}           Lister les sessions actives
-  ${G}ta${N} <nom>     S'attacher ${D}(ex: ta meetingbaas)${N}
-  ${G}tk${N} <nom>     Tuer une session ${D}(ex: tk art_spy)${N}
-  ${G}dsync${N}        Synchroniser les dotfiles
-  ${G}thelp${N}        Cette aide
+  ${G}ts${N}    Lancer toutes les sessions
+  ${G}tw${N}    Choisir une session
+  ${G}tl${N}    Lister les sessions
 
   ${C}mb${N} → meetingbaas     ${C}pa${N} → phiphi_assist
   ${C}as${N} → art_spy         ${C}ro${N} → ringover
   ${C}mma${N} → mac_mini_admin
 
-${B}━━━ SESSIONS ${D}(= tes projets)${N} ${B}━━━${N}
+${B}━━━ NAVIGUER ━━━${N}
 
-  ${G}Ctrl-b s${N}     Arbre des sessions (naviguer + Enter)
-  ${G}Ctrl-b )${N}     Session suivante
-  ${G}Ctrl-b (${N}     Session precedente
-  ${G}Ctrl-b d${N}     Se detacher (rien ne se perd)
-  ${G}Ctrl-b \$${N}     Renommer la session
+  ${G}Ctrl-b s${N}       Arbre des sessions ${D}(le plus utile !)${N}
+  ${G}Ctrl-b 1/2/3${N}   Aller a la fenetre 1=code, 2=term, 3=logs
+  ${G}Ctrl-b n${N}       Fenetre suivante
+  ${G}Ctrl-b p${N}       Fenetre precedente
+  ${G}Ctrl-b )${N}       Session suivante
+  ${G}Ctrl-b (${N}       Session precedente
+  ${G}Ctrl-b d${N}       Se detacher ${D}(tout continue de tourner)${N}
 
-${B}━━━ FENETRES ${D}(= onglets)${N} ${B}━━━${N}
+${B}━━━ FENETRES ━━━${N}
 
-  ${G}Ctrl-b n${N}     Fenetre suivante
-  ${G}Ctrl-b p${N}     Fenetre precedente
-  ${G}Ctrl-b w${N}     Liste des fenetres (toutes sessions)
-  ${G}Ctrl-b 1${N}     → code
-  ${G}Ctrl-b 2${N}     → term
-  ${G}Ctrl-b 3${N}     → logs
-  ${G}Ctrl-b c${N}     Nouvelle fenetre
-  ${G}Ctrl-b ,${N}     Renommer
-  ${G}Ctrl-b &${N}     Fermer la fenetre
+  ${G}Ctrl-b c${N}       Creer une fenetre
+  ${G}Ctrl-b ,${N}       Renommer la fenetre
+  ${G}Ctrl-b &${N}       Fermer la fenetre
 
-  ${Y}Reordonner les fenetres :${N}
-  ${G}Ctrl-b .${N}     Deplacer la fenetre (entrer le numero)
-  ${G}swap-window -s 2 -t 1${N}  ${D}(dans Ctrl-b : pour echanger 2 fenetres)${N}
-  ${G}move-window -r${N}         ${D}(dans Ctrl-b : pour renumeroter tout)${N}
+  ${Y}Deplacer une fenetre :${N}
+    1. ${G}Ctrl-b .${N}   puis taper le numero de destination
+       ${D}Ex: la fenetre 3 doit aller en 1 → aller sur 3, Ctrl-b . , taper 1${N}
+       ${D}Si le numero est deja pris, il faut d'abord echanger (voir ci-dessous)${N}
+
+  ${Y}Echanger deux fenetres :${N}
+    1. ${G}Ctrl-b :${N}   ${D}(ouvre le prompt tmux en bas)${N}
+    2. Taper : ${G}swap-window -s 3 -t 1${N}   puis Entree
+       ${D}Echange la fenetre 3 et la fenetre 1${N}
+
+  ${Y}Renumeroter toutes les fenetres (1, 2, 3...) :${N}
+    1. ${G}Ctrl-b :${N}
+    2. Taper : ${G}move-window -r${N}   puis Entree
 
 ${B}━━━ PANNEAUX (SPLITS) ━━━${N}
 
-  ${G}Ctrl-b |${N}     Split horizontal (cote a cote)
-  ${G}Ctrl-b -${N}     Split vertical (dessus/dessous)
-  ${G}Ctrl-b hjkl${N}  Naviguer entre panneaux
-  ${G}Ctrl-b HJKL${N}  Redimensionner
-  ${G}Ctrl-b z${N}     Zoom/dezoom (toggle plein ecran)
-  ${G}Ctrl-b x${N}     Fermer le panneau
-  ${G}Ctrl-b !${N}     Sortir le panneau dans sa propre fenetre
-  ${G}Ctrl-b q${N}     Afficher les numeros de panneaux ${D}(taper le num pour y aller)${N}
-  ${G}Ctrl-b Space${N} Changer le layout ${D}(alterne entre les dispositions)${N}
-  ${G}Ctrl-b {${N}     Deplacer le panneau vers le haut/gauche
-  ${G}Ctrl-b }${N}     Deplacer le panneau vers le bas/droite
+  ${G}Ctrl-b |${N}       Splitter cote a cote
+  ${G}Ctrl-b -${N}       Splitter dessus/dessous
+  ${G}Ctrl-b h/j/k/l${N} Se deplacer entre panneaux
+  ${G}Ctrl-b z${N}       Zoom un panneau ${D}(refaire pour dezoom)${N}
+  ${G}Ctrl-b x${N}       Fermer le panneau
+  ${G}Ctrl-b !${N}       Transformer le panneau en fenetre
+  ${G}Ctrl-b Space${N}   Changer la disposition des panneaux
+  ${G}Ctrl-b H/J/K/L${N} Redimensionner ${D}(avec Maj)${N}
 
 ${B}━━━ COPIER / COLLER ━━━${N}
 
-  ${Y}Methode 1 — Mode copie tmux (recommande) :${N}
-    ${G}Ctrl-b [${N}       Entrer en mode copie
-    ${D}(tu peux scroller avec les fleches ou la souris)${N}
-    ${G}Espace${N}         Commencer la selection
-    ${D}(deplace le curseur avec les fleches pour selectionner)${N}
-    ${G}Enter${N}          Copier la selection
-    ${G}Ctrl-b ]${N}       Coller
+  ${G}Ctrl-b [${N}       Mode copie ${D}(scroller, selectionner)${N}
+  ${G}v${N}              Commencer la selection
+  ${G}y${N}              Copier dans le presse-papier macOS
+  ${G}q${N}              Quitter le mode copie
+  ${G}Ctrl-b ]${N}       Coller depuis tmux
 
-  ${Y}Methode 2 — Copier vers le presse-papier macOS :${N}
-    ${G}Ctrl-b [${N}       Entrer en mode copie
-    ${G}v${N}              Commencer la selection
-    ${G}y${N}              Copier dans le presse-papier (Cmd-V pour coller)
-
-  ${G}q${N}              Quitter le mode copie sans rien faire
-
-${B}━━━ PERSISTENCE ━━━${N}
-
-  ${G}Ctrl-b Ctrl-s${N}   Sauvegarder maintenant
-  ${G}Ctrl-b Ctrl-r${N}   Restaurer
-  ${D}(sauvegarde auto toutes les 15 min)${N}
+  ${D}La souris marche aussi pour scroller et selectionner.${N}
 
 ${B}━━━ CLAUDE CODE ━━━${N}
 
-  ${Y}Lancer (dans le terminal) :${N}
-    ${G}claude${N}         Nouvelle conversation
-    ${G}claude -c${N}      Reprendre la derniere du dossier
-    ${G}claude -r${N}      Choisir parmi les conversations passees
-
-  ${R}ATTENTION :${N} claude -c et -r cherchent dans le dossier courant.
-  Si tu n'as jamais lance claude dans ce dossier, il n'y a rien.
-  Lance juste ${G}claude${N} pour commencer.
+  ${G}claude${N}         Nouvelle conversation
+  ${G}claude -c${N}      Reprendre la derniere
+  ${G}claude -r${N}      Choisir une conversation passee
 
   ${Y}Dans Claude Code :${N}
-    ${G}/resume${N}   ${G}/compact${N}   ${G}/cost${N}   ${G}/clear${N}   ${G}/help${N}
+    ${G}/resume${N}  ${G}/compact${N}  ${G}/cost${N}  ${G}/clear${N}  ${G}/help${N}
 
-${B}━━━ COMMANDES UTILES ${D}(Ctrl-b : pour ouvrir le prompt)${N} ${B}━━━${N}
+${B}━━━ PERSISTENCE ━━━${N}
 
-  ${G}:swap-window -s 2 -t 1${N}      Echanger fenetre 2 et 1
-  ${G}:move-window -r${N}             Renumeroter les fenetres
-  ${G}:join-pane -t :2${N}            Envoyer le panneau dans la fenetre 2
-  ${G}:break-pane${N}                 Sortir le panneau courant en fenetre
-  ${G}:resize-pane -D 10${N}          Redimensionner de 10 lignes
-  ${G}:kill-session${N}               Tuer la session courante
-  ${G}:setw synchronize-panes${N}     Taper dans tous les panneaux en meme temps
+  ${G}Ctrl-b Ctrl-s${N}  Sauvegarder les sessions
+  ${G}Ctrl-b Ctrl-r${N}  Restaurer les sessions
+  ${D}Sauvegarde auto toutes les 15 min.${N}
 
-${B}━━━ WORKFLOW ━━━${N}
+${B}━━━ JE VEUX... ━━━${N}
 
-  Matin :  ${G}tw${N} ou ${C}mb/pa/as/ro/mma${N}
-  Bosser : ${G}claude${N} ou ${G}claude -c${N} dans la fenetre code
-  Switch : ${G}Ctrl-b s${N}
-  Soir :   ${G}Ctrl-b d${N} (tout continue en arriere-plan)
+  ${Y}...remettre mes fenetres dans l'ordre code/term/logs${N}
+    ${G}Ctrl-b :${N} puis ${G}swap-window -s 3 -t 1${N}
+    ${D}Repeter pour chaque fenetre mal placee${N}
 
-  ${G}Ctrl-b r${N}     Recharger la config tmux
-  ${G}Ctrl-b ?${N}     TOUS les raccourcis tmux
-  ${G}Ctrl-b t${N}     Afficher l'heure (grande horloge)
+  ${Y}...virer une fenetre en trop${N}
+    Aller dessus avec ${G}Ctrl-b 4${N} puis ${G}Ctrl-b &${N}
+
+  ${Y}...tuer une session parasite${N}
+    ${G}tk nom_session${N}   ${D}(alias dans le terminal)${N}
+
+  ${Y}...voir ce qui tourne sur toutes les sessions${N}
+    ${G}Ctrl-b w${N}   ${D}(liste toutes les fenetres de toutes les sessions)${N}
+
+  ${Y}...envoyer un panneau dans une autre fenetre${N}
+    ${G}Ctrl-b :${N} puis ${G}join-pane -t :2${N}   ${D}(envoie dans la fenetre 2)${N}
+
+  ${Y}...recharger la config tmux${N}
+    ${G}Ctrl-b r${N}
 
   ${D}(q pour quitter cette aide)${N}
 "
