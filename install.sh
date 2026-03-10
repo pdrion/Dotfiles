@@ -47,15 +47,6 @@ echo -e "${GREEN}[mkdir]${NC} ~/.claude/"
 mkdir -p ~/.claude
 link_file "claude/CLAUDE.md" ".claude/CLAUDE.md"
 
-# Copier les skills dans chaque projet qui a un .claude/
-for proj_dir in ~/workspaces/*/; do
-    if [ -d "$proj_dir/.claude" ]; then
-        mkdir -p "$proj_dir/.claude/skills"
-        cp -rn "$DOTFILES_DIR/claude/skills/"* "$proj_dir/.claude/skills/" 2>/dev/null
-        echo -e "${GREEN}[skills]${NC} $(basename "$proj_dir")"
-    fi
-done
-
 # Creer ~/.tmux.local.conf si absent
 if [ ! -f ~/.tmux.local.conf ]; then
     echo "# Config locale $(hostname -s) — pas partagee" > ~/.tmux.local.conf
